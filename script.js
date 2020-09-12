@@ -24,9 +24,13 @@ var scheduleHoursArray = [
   moment("5PM", "hA"),
 ];
 
+var storageId = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 for (let i = 0; i < scheduleHoursArray.length; i++) {
   //Create rows with a column for time, scheduler, and save button
-  var newRow = $("<row>").attr("class", "row time-block");
+  var newRow = $("<row>").attr({
+      class: "row time-block",
+      id: storageId[i],});
   //populate the rows with time
   var rowTime = $("<div>")
     .attr("class", "col-1 hour")
@@ -51,9 +55,12 @@ for (let i = 0; i < scheduleHoursArray.length; i++) {
   //populate the rows with an input
   var schedulerInput = $("<textarea>").attr({
     class: "col-10 description",
+    id: "content",
     placeholder: "Enter schedule here.",
   });
   newRow.append(schedulerInput);
+
+
 
   //populate the rows with save button
   var saveButton = $("<button>")
@@ -63,22 +70,29 @@ for (let i = 0; i < scheduleHoursArray.length; i++) {
 
   //Append all the new variables to the container
   calCont.append(newRow);
+
+getStorage();
+
 }
 
 //Save the input so that it isn't earsed when the page is refreshed
 
 //Save input to storage
 //set item
-$(document).on("click", ".saveButton", function () {
-  localStorage.setItem($(this).parent().attr("id")),
-    $(this).siblings(".description").val().trim();
-});
-
-//checking local storage
+$(document).on("click", ".saveBtn", function(event) {
+  event.preventDefault();
+    localStorage.setItem(
+        //key
+      $(this).parent().attr('id'),
+      //value
+      $(this).siblings(".description").val().trim()
+    );
+  });
+//checking local storage// 
 function getStorage() {
-  var storageKeys = Object.keys(localStorage);
-  for (var i = 0; i < storageKeys.length; i++) {
-    var savedText = getItem(storageKeys[i]);
-    $("#" + storageKeys[i].toString().children(".description").val(savedText));
-  }
+   var storageKeys = Object.keys(localStorage);
+   for (var i = 0; i < storageKeys.length; i++) {
+     var savedInput = localStorage.getItem(storageKeys[i]);
+     $("#" + storageKeys[i].toString()).children(".description").val(savedInput);
+   };
 }
