@@ -74,13 +74,13 @@ for (let i = 0; i < scheduleHoursArray.length; i++) {
 $(document).on("click", ".saveBtn", function (event) {
   event.preventDefault();
   localStorage.setItem(
-    //key
+    //key - newRow ID
     $(this).parent().attr("id"),
-    //value
+    //value - the textarea 
     $(this).siblings(".description").val().trim()
   );
 });
-//checking local storage//
+//checking local storage
 function getStorage() {
   var storageItems = Object.keys(localStorage);
   for (var i = 0; i < storageItems.length; i++) {
